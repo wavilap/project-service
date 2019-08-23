@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const FormWrap = styled.form`
-  width: 35%;
   border: 1px solid #ccc;
   border-radius: .25rem;
   overflow: hidden;

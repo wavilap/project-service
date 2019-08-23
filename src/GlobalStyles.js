@@ -93,4 +93,24 @@ export const GlobalStyle = createGlobalStyle`
     align-items: flex-start;
     flex-wrap: wrap;
   }
+
+  .column {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .one-third {
+    width: 33.333%;
+    padding-left: .75rem;
+    padding-right: .75rem;
+    margin-bottom: 1rem;
+  }
+
+  .serviceWrap {
+    width: 65%;
+  }
+
+  .formWrap {
+    width: 35%;
+  }
 `
