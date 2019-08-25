@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react'
 import { GlobalStyle } from './GlobalStyles'
 
 import db from './config'
+import { Heading } from './components/Heading'
 import { Filter } from './components/Filter'
 import { Service } from './components/Service'
 import { ServiceForm } from './components/ServiceForm'
@@ -9,6 +10,7 @@ import { ServiceForm } from './components/ServiceForm'
 export class App extends Component {
   state = {
     services: [],
+    activeCategory: 'Todos',
     edit: false,
     docId: '',
     formValues: {
@@ -19,8 +21,6 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    const { services } = this.state
-
     db.collection('services').onSnapshot(snapshot => {
       this.setState({
         services: snapshot.docs.map(doc => {
@@ -82,33 +82,32 @@ export class App extends Component {
     })
   }
 
+  handleChange = (category) => {
+    this.setState({
+      activeCategory: category
+    })
+  }
+
   render() {
-    const { services, formValues } = this.state
+    const { activeCategory, services, formValues } = this.state
 
     return (
       <Fragment>
         <GlobalStyle />
-        <h1>Servicios</h1>
+        <Heading>Servicios</Heading>
         <main>
           <div className="container">
-            <Filter />
+            <Filter
+              activeCategory={activeCategory}
+              onChange={this.handleChange}
+            />
             <div className="row">
-              <div className="serviceWrap row">
-                {
-                  services.map(service => (
-                    <div className="one-third" key={service.id}>
-                      <Service
-                        id={service.id}
-                        name={service.name}
-                        description={service.description}
-                        category={service.category}
-                        removeService={this.removeService}
-                        getService={this.getService}
-                      />
-                    </div>
-                  ))
-                }
-              </div>
+              <Service
+                services={services}
+                activeCategory={activeCategory}
+                getService={this.getService}
+                removeService={this.removeService}
+              />
               <div className="formWrap">
                 <ServiceForm
                   setInputs={formValues}

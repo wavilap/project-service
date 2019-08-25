@@ -15,18 +15,29 @@ export class Service extends Component {
   }
 
   render() {
-    let { id, name, description } = this.props
+    let { services, activeCategory } = this.props
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{name}</CardTitle>
-          <p>{description}</p>
-        </CardHeader>
-        <CardFooter>
-          <button type="button" onClick={() => this.getDoc(id)}>Editar</button>
-          <button type="button" onClick={() => this.handleRemove(id)}>Eliminar</button>
-        </CardFooter>
-      </Card>
+      <div className="serviceWrap row">
+        {
+          services.map(service => {
+            if (service.category.indexOf(activeCategory) < 0 && activeCategory !== 'Todos') return null
+            return (
+              <div className="one-third" key={service.id}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{service.name}</CardTitle>
+                    <p>{service.description}</p>
+                  </CardHeader>
+                  <CardFooter>
+                    <button type="button" onClick={() => this.getDoc(service.id)}>Editar</button>
+                    <button type="button" onClick={() => this.handleRemove(service.id)}>Eliminar</button>
+                  </CardFooter>
+                </Card>
+              </div>
+            )
+          })
+        }
+      </div>      
     )
   }
 }

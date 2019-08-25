@@ -4,7 +4,9 @@ import {
   FormWrap,
   Field,
   FormFields,
-  FormAction
+  FormAction,
+  PrimaryButton,
+  SecondaryButton
 } from './styles'
 
 export class ServiceForm extends Component {
@@ -72,8 +74,8 @@ export class ServiceForm extends Component {
           </Field>
         </FormFields>
         <FormAction>
-          <button type="submit">Grabar</button>
-          <button type="button" onClick={this.reset}>Cancelar</button>
+          <PrimaryButton type="submit">Grabar</PrimaryButton>
+          <SecondaryButton type="button" onClick={this.reset}>Cancelar</SecondaryButton>
         </FormAction>
       </FormWrap>
     )

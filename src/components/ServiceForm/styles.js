@@ -36,13 +36,23 @@ export const Field = styled.div`
 
 export const FormAction = styled.div`
   background-color: #efefef;
-  padding: .75rem 1.25rem;
+  padding: .75rem 1.25rem;  
+`
 
-  button {
-    font-size: 0.875rem;
-    padding: .55rem .75rem;
-    border: 1px solid #ccc;
-    border-radius: .25rem;
-    margin-right: .5rem;
-  }
+export const Button = styled.button`
+  font-size: 0.875rem;
+  padding: .55rem .75rem;
+  border: 1px solid red;
+  border-radius: .25rem;
+  margin-right: .5rem;
+`
+
+export const PrimaryButton = styled(Button)`
+  color: #19d16f;
+  border-color: #19d16f;
+`
+
+export const SecondaryButton = styled(Button)`
+  color: #EE5E40;
+  border-color: #EE5E40;
 `
