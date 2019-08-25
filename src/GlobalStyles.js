@@ -88,10 +88,17 @@ export const GlobalStyle = createGlobalStyle`
     padding-right: .5rem;
   }
 
+  .column {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
   .row {
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
+    margin-left: -.75rem;
+    margin-right: -.75rem;
   }
 
   .column {

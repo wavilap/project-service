@@ -17,7 +17,7 @@ export class Service extends Component {
   render() {
     let { services, activeCategory } = this.props
     return (
-      <div className="serviceWrap row">
+      <div className="row">
         {
           services.map(service => {
             if (service.category.indexOf(activeCategory) < 0 && activeCategory !== 'Todos') return null

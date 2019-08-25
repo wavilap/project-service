@@ -102,13 +102,15 @@ export class App extends Component {
               onChange={this.handleChange}
             />
             <div className="row">
-              <Service
-                services={services}
-                activeCategory={activeCategory}
-                getService={this.getService}
-                removeService={this.removeService}
-              />
-              <div className="formWrap">
+              <div className="column serviceWrap">
+                <Service
+                  services={services}
+                  activeCategory={activeCategory}
+                  getService={this.getService}
+                  removeService={this.removeService}
+                />
+              </div>
+              <div className="column formWrap">
                 <ServiceForm
                   setInputs={formValues}
                   addService={this.addService}
