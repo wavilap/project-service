@@ -8,10 +8,16 @@ export const Card = styled.article`
 `
 
 export const CardHeader = styled.div`
-  padding: 1.25rem 1.25rem;
+  padding: 1.25rem 1.25rem 1rem;
 
   p {
     min-height: 42px;
+  }
+
+  span {
+    color: #ccc;
+    font-size: 12px;
+    margin-top: .5rem;
   }
 `
 

@@ -27,6 +27,7 @@ export class Service extends Component {
                   <CardHeader>
                     <CardTitle>{service.name}</CardTitle>
                     <p>{service.description}</p>
+                    <span>Cat. {service.category}</span>
                   </CardHeader>
                   <CardFooter>
                     <button type="button" onClick={() => this.getDoc(service.id)}>Editar</button>

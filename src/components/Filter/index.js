@@ -9,9 +9,14 @@ export class Filter  extends Component {
   }
 
   componentDidMount() {
+    const arr = ['Todos']
+    
     db.collection('services').get().then(snapshot => {
-      let arr = snapshot.docs.map(doc => doc.data().category)
-      arr.unshift('Todos')
+      snapshot.docs.map(doc => {
+        if (arr.indexOf(doc.data().category) < 0) {
+          arr.push(doc.data().category)
+        } 
+      })
 
       this.setState({
         categories: arr

@@ -21,7 +21,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    db.collection('services').onSnapshot(snapshot => {
+    db.collection('services').orderBy('name').onSnapshot(snapshot => {
       this.setState({
         services: snapshot.docs.map(doc => {
           let data = doc.data()
