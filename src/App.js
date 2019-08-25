@@ -1,68 +1,90 @@
 import React, { Fragment, Component } from 'react'
 import { GlobalStyle } from './GlobalStyles'
-import Firebase from 'firebase'
 
-import DB_CONFIG from './config'
+import db from './config'
 import { Filter } from './components/Filter'
 import { Service } from './components/Service'
-// import { ListServices } from './components/ListServices'
 import { ServiceForm } from './components/ServiceForm'
-import { throwStatement } from '@babel/types';
 
 export class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      services: []
+  state = {
+    services: [],
+    edit: false,
+    docId: '',
+    formValues: {
+      name: '',
+      description: '',
+      category: 'Autos'
     }
-
-    this.app = Firebase.initializeApp(DB_CONFIG)
-    this.db = this.app.database().ref().child('services')
   }
 
   componentDidMount() {
     const { services } = this.state
-    
-    this.db.on('child_added', snapshot => {
-      services.push({
-        serviceId: snapshot.key,
-        name: snapshot.val().name,
-        description: snapshot.val().description,
-        category: snapshot.val().category
-      })
-      this.setState({services})
-    })
 
-    this.db.on('child_removed', snapshot => {
-      for (let i = 0; i < services.length; i++) {
-        if (services[i].serviceId === snapshot.key) {
-          services.splice(i, 1)
-        }
-      }
-      this.setState({services})
+    db.collection('services').onSnapshot(snapshot => {
+      this.setState({
+        services: snapshot.docs.map(doc => {
+          let data = doc.data()
+          let id = doc.id
+          return { id, ...data }
+        })
+      })
     })
   }
 
   addService = (service) => {
-    const { name, description, category } = service
-    console.log(service)
-    this.db.push().set({
-      name,
-      description,
-      category
+    !this.state.edit ?
+    db.collection('services').add(service)
+    .then((doc) => {
+      console.log(`adding with id: ${doc.id}`)
+    }).catch((err) => {
+      console.log(err)
+    }) : this.updateService(service)
+
+    this.resetForm()
+  }
+
+  getService = (id) => {
+    let docRef = db.collection('services').doc(id)
+    docRef.get().then(doc => {
+      if (doc.exists) {
+        this.setState({
+          edit: true,
+          docId: doc.id,
+          formValues: doc.data()
+        })
+      }
     })
   }
 
-  editService = () => {
+  updateService = (service) => {
+    const { docId  } = this.state
     
+    db.collection('services').doc(docId).update(service)
+    .then(() => {
+      this.setState({ edit: false })
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
-  removeService = (serviceId) => {
-    this.db.child(serviceId).remove()
+  removeService = (id) => {
+    db.collection('services').doc(id).delete()
+  }
+
+  resetForm = () => {
+    this.setState({
+      formValues: {
+        name: '',
+        description: '',
+        category: 'Autos'
+      }
+    })
   }
 
   render() {
-    const { services } = this.state
+    const { services, formValues } = this.state
+
     return (
       <Fragment>
         <GlobalStyle />
@@ -74,20 +96,25 @@ export class App extends Component {
               <div className="serviceWrap row">
                 {
                   services.map(service => (
-                    <div className="one-third" key={service.serviceId}>
+                    <div className="one-third" key={service.id}>
                       <Service
-                        id={service.serviceId}
+                        id={service.id}
                         name={service.name}
                         description={service.description}
                         category={service.category}
                         removeService={this.removeService}
+                        getService={this.getService}
                       />
                     </div>
                   ))
                 }
               </div>
               <div className="formWrap">
-                <ServiceForm addService={this.addService} />
+                <ServiceForm
+                  setInputs={formValues}
+                  addService={this.addService}
+                  resetForm={this.resetForm}
+                />
               </div>
             </div>
           </div>

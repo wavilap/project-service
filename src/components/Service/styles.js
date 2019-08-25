@@ -9,6 +9,10 @@ export const Card = styled.article`
 
 export const CardHeader = styled.div`
   padding: 1.25rem 1.25rem;
+
+  p {
+    min-height: 42px;
+  }
 `
 
 export const CardTitle = styled.h3`

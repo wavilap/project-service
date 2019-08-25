@@ -8,22 +8,16 @@ import {
 } from './styles'
 
 export class ServiceForm extends Component {
-  state = {
-    name: '',
-    description: '',
-    category: 'Autos'
+  state = this.props.setInputs
+
+  componentWillReceiveProps(nextProps) {
+    let { name, description, category } = nextProps.setInputs
+    this.setState({ name, description, category })
   }
 
   handleSubmit = (ev) => {
     ev.preventDefault()
-    const { name, description, category } = this.state
-    let data = {
-      name,
-      description,
-      category
-    }
-
-    this.props.addService(data)
+    this.props.addService(this.state)
   }
 
   handleChange = (ev) => {
@@ -33,11 +27,7 @@ export class ServiceForm extends Component {
   }
 
   reset = () => {
-    this.setState({
-      name: '',
-      description: '',
-      category: 'Autos'
-    })
+    this.props.resetForm()
   }
 
   render () {
@@ -89,68 +79,3 @@ export class ServiceForm extends Component {
     )
   }
 }
-
-
-
-// const useInputValue = (initialState) => {
-//   const [value, setValue] = useState(initialState)
-//   const onChange = e => setValue(e.target.value)
-//   const reset = () => setValue('')
-
-//   return { value, reset, onChange }
-// }
-
-// export const ServiceForm = () => {
-//   const name = useInputValue('')
-//   const description = useInputValue('')
-//   // const [description, setDescription ] = useState('')
-
-//   const handleSubmit = (ev) => {
-//     ev.preventDefault()
-//     let data = {
-//       name,
-//       description
-//     }
-
-//     console.log(data)
-//   }
-
-//   return (
-//     <FormWrap onSubmit={handleSubmit}>
-//       <FormFields>
-//         <h5>Servicio</h5>
-//         <Field>
-//           <label htmlFor="name">Nombre</label>
-//           <input
-//             type="text"
-//             id="name"
-//             value={name.value}
-//             onChange={name.onChange}
-//           />
-//         </Field>
-//         <Field>
-//           <label htmlFor="description">Descripción</label>
-//           <input
-//             type="text"
-//             id="description"
-//             value={description.value}
-//             onChange={description.onChange}
-//           />
-//         </Field>
-//         <Field>
-//           <label htmlFor="">Categoría</label>
-//           <select name="" id="">
-//             <option value="">Elegir categoría</option>
-//             <option value="">Autos</option>
-//             <option value="">Salud</option>
-//             <option value="">Hogar</option>
-//           </select>
-//         </Field>
-//       </FormFields>
-//       <FormAction>
-//         <button type="submit">Grabar</button>
-//         <button type="button">Cancelar</button>
-//       </FormAction>
-//     </FormWrap>
-//   )
-// }
